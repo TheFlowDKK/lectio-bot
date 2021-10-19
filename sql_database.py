@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
+sql_host = os.getenv("sql_host")
 sql_user = os.getenv("sql_user")
 sql_pass = os.getenv("sql_pass")
 lectio_user = os.getenv("lectio_user")
@@ -15,7 +16,7 @@ lectio_base = os.getenv("lectio_base")
 
 def connect():
     mindb = mysql.connector.connect(
-        host="localhost",
+        host=sql_host,
         user=sql_user,
         password=sql_pass
     )
@@ -118,7 +119,10 @@ def deleteOld():
 #webScrape(lectio_base + "login.aspx", lectio_base + lectio_opgaver, lectio_user, lectio_pass)
 #mindb = connect()
 #resetTable()
-uploadToTable()
-deleteOld()
 #print(showNext(3))
 #print(showNext(3)[0][1])
+
+# Updates database
+
+""" uploadToTable()
+deleteOld()"""
