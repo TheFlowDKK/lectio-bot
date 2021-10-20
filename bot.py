@@ -82,5 +82,10 @@ async def on_message(message):
     elif message.content.startswith('!updatedb') and message.author.id != int(OWNER):
         await message.channel.send(f'Mangler tilladelse...')
 
+    if message.content.startswith('!help'):
+        await message.channel.send(
+        '!lektier - Viser den næste lektie\n' + '!lektier [antal] - Viser det næste antal lektier\n'
+        )
+
 
 client.run(TOKEN)

@@ -1,3 +1,5 @@
+#SQL_DATABASE for windows. Uses mysql.connector.
+
 import mysql.connector
 from data_indsamler import indsaml, webScrape
 from dotenv import load_dotenv
