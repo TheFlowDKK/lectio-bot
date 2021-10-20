@@ -81,7 +81,6 @@ async def on_message(message):
         await message.channel.send(f'Database opdateret...')
     elif message.content.startswith('!updatedb') and message.author.id != int(OWNER):
         await message.channel.send(f'Mangler tilladelse...')
-        
 
 
 client.run(TOKEN)

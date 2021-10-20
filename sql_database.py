@@ -7,6 +7,9 @@ load_dotenv()
 sql_host = os.getenv("sql_host")
 sql_user = os.getenv("sql_user")
 sql_pass = os.getenv("sql_pass")
+db_name = os.getenv("db_name")
+db_table = os.getenv("db_table")
+
 lectio_user = os.getenv("lectio_user")
 lectio_pass = os.getenv("lectio_pass")
 lectio_opgaver = os.getenv("lectio_opgaver")
@@ -23,7 +26,7 @@ def connect():
 
     mincursor = mindb.cursor()
 
-    sql = "USE skoledatabase"
+    sql = f"USE {db_name}"
 
     mincursor.execute(sql)
     mindb.commit()
@@ -39,14 +42,15 @@ def makeCursor(mindb):
 def resetTable():
     mindb = connect()
     mincursor = makeCursor(mindb)
-    sql = "DROP TABLE lektier"
+    sql = f"DROP TABLE {db_table}"
     mincursor.execute(sql)
 
-    sql = """CREATE TABLE `skoledatabase`.`lektier` (
+    sql = f"""CREATE TABLE `{db_name}`.`{db_table}` (
       `idlektier` INT NOT NULL AUTO_INCREMENT,
       `titel` VARCHAR(45) NOT NULL,
       `frist` DATETIME NOT NULL,
       `elevtid` VARCHAR(45),
+      `slettet` BOOL,
       PRIMARY KEY (`idlektier`));"""
     mincursor.execute(sql)
 
@@ -63,7 +67,7 @@ def uploadToTable():
     mindb = connect()
     mincursor = makeCursor(mindb)
     for i in range(len(names)):
-        sql = "INSERT INTO lektier (titel, frist, elevtid) VALUES (%s, %s, %s)"
+        sql = f"INSERT INTO {db_table} (titel, frist, elevtid, slettet) VALUES (%s, %s, %s, False)"
         val = (names[i], frister[i], elevtid[i])
     
         #print(val)
@@ -78,7 +82,7 @@ def uploadToTable():
 def showNext(limitval):
     mindb = connect()
     mincursor = makeCursor(mindb)
-    sql = f"SELECT titel, frist, elevtid FROM lektier WHERE frist > curtime() ORDER BY frist LIMIT {limitval}"
+    sql = f"SELECT titel, frist, elevtid FROM {db_table} WHERE frist > curtime() AND slettet = 0 ORDER BY frist LIMIT {limitval}"
     mincursor.execute(sql)
     resultat = mincursor.fetchall()
 
@@ -101,12 +105,14 @@ def deleteOld():
     mincursor = makeCursor(mindb)
     
     # Fjerner gamle lektier
-    sql = f"DELETE FROM lektier WHERE frist < curtime()"
+    sql = f"UPDATE {db_table} SET slettet = True WHERE frist < curtime() AND slettet = False"
+    #sql = f"DELETE FROM {db_table} WHERE frist < curtime()"
+    
     mincursor.execute(sql)
     mindb.commit()
 
     # Fjerner duplicates -- Beholder den lektier med lavest ID
-    sql = f"DELETE t1 FROM lektier t1 INNER JOIN lektier t2 WHERE t1.idlektier > t2.idlektier AND t1.titel = t2.titel;"
+    sql = f"DELETE t1 FROM {db_table} t1 INNER JOIN {db_table} t2 WHERE t1.idlektier > t2.idlektier AND t1.titel = t2.titel;"
     mincursor.execute(sql)
     mindb.commit()
 
@@ -119,10 +125,11 @@ def deleteOld():
 #webScrape(lectio_base + "login.aspx", lectio_base + lectio_opgaver, lectio_user, lectio_pass)
 #mindb = connect()
 #resetTable()
+#uploadToTable()
 #print(showNext(3))
 #print(showNext(3)[0][1])
 
 # Updates database
 
-""" uploadToTable()
-deleteOld()"""
+uploadToTable()
+deleteOld()
