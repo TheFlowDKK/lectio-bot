@@ -4,5 +4,5 @@
 
 import sql_database as sqldb
 
-sqldb.uploadToTable()
-sqldb.deleteOld()
+#sqldb.uploadToTable()
+#sqldb.deleteOld()
