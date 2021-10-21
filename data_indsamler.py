@@ -39,7 +39,7 @@ def webScrape(login_url, opgave_url, username, password):
                 file.close()
         return filename
     except:
-        filename = "html/" + os.listdir("html/")[0]
+        filename = "html/" + os.listdir("html/")[2]
 
             # Viser titlen på lectio siden.
             #print(r, BeautifulSoup(r.content, 'lxml').find('title').text)
