@@ -32,11 +32,11 @@ async def on_ready():
         #print(guild.name, guild.id)
         if guild.name == GUILD:
             break
-        else:
-            print("Noget gik galt...")
-            print("Din .env fil er muligvis ikke opsat korrekt.")
-            input()
-            exit()
+    if guild.name != GUILD:
+        print("Noget gik galt...")
+        print("Din .env fil er muligvis ikke opsat korrekt.")
+        input()
+        exit()
     
     print(
         f"{client.user} aktiv! (User-ID: {client.user.id}) \n"
