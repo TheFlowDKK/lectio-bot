@@ -64,7 +64,7 @@ def resetTable():
 def uploadToTable():
     names, frister, elevtid = indsaml(webScrape(lectio_base + "login.aspx", lectio_base + lectio_opgaver, lectio_user, lectio_pass))
     if len(os.listdir("html/")) >= 4:
-        os.remove("html/" + os.listdir("html/")[0])
+        os.remove("html/" + sorted(os.listdir("html/"))[0])
 
     mindb = connect()
     mincursor = makeCursor(mindb)
