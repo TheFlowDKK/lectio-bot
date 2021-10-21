@@ -7,4 +7,4 @@ A discord bot that works together with Lectio to show homework.
 - Rename the file you need to sql_database.py and delete the other.
 
 
-#### This project is mostly for documentation and therefore now really intended for others to download.
+#### This project is mostly for documentation and therefore not really intended for others to download.
