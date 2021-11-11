@@ -29,7 +29,7 @@ def webScrape(login_url, opgave_url, username, password):
             r = s.post(login_url, data=payload, headers=HEADERS)
 
             r = s.get(opgave_url)
-            filename = 'html/' + datetime.datetime.now().strftime('%d-%m-%Y %H-%M') + '.html'
+            filename = 'html/' + datetime.datetime.now().strftime('%d %H-%M') + '.html'
 
             # Sletter gamle html filer.
 
